@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelSqueeze | AI-Powered Image Compression</title>
+    <style>
+        :root {
+            --neon-blue: #0ff0fc;
+            --deep-space: #0a0e17;
+            --cosmic-purple: #7b2dff;
+            --stardust: #f0f8ff;
+            --plasma-pink: #ff2d75;
+            --quantum-teal: #00f5d4;
+            --galaxy-edge: #1a1c2c;
+        }
+        
+        @font-face {
+            font-family: 'Quantum';
+            src: url('https://fonts.cdnfonts.com/css/quantum') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--deep-space);
+            color: var(--stardust);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(123, 45, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 245, 212, 0.15) 0%, transparent 50%);
+        }
+        
+        .cyber-border {
+            position: relative;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            background-image: linear-gradient(var(--deep-space), var(--deep-space)),
+                              linear-gradient(135deg, var(--neon-blue), var(--cosmic-purple));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        
+        header {
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-family: 'Quantum', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(90deg, var(--neon-blue), var(--quantum-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: 'β';
+            position: absolute;
+            top: -10px;
+            right: -15px;
+            font-size: 0.8rem;
+            color: var(--plasma-pink);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--stardust);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--quantum-teal));
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-family: 'Quantum', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--neon-blue), var(--quantum-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+        
+        .tool-container {
+            background: rgba(10, 14, 23, 0.7);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(15, 240, 252, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-header h2 {
+            font-family: 'Quantum', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+        }
+        
+        .tool-header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(15, 240, 252, 0.3);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            position: relative;
+            background: rgba(15, 240, 252, 0.03);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--neon-blue);
+            background: rgba(15, 240, 252, 0.05);
+        }
+        
+        .upload-area.active {
+            border-color: var(--quantum-teal);
+            background: rgba(0, 245, 212, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-blue);
+            filter: drop-shadow(0 0 10px rgba(15, 240, 252, 0.5));
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .file-info {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(15, 240, 252, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-blue);
+            font-size: 0.9rem;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .control-group {
+            position: relative;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--neon-blue);
+            font-size: 0.95rem;
+        }
+        
+        .slider-container {
+            position: relative;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--cosmic-purple), var(--neon-blue));
+            outline: none;
+            margin: 1rem 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--stardust);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(15, 240, 252, 0.8);
+            border: 2px solid var(--neon-blue);
+        }
+        
+        .slider-value {
+            position: absolute;
+            top: -10px;
+            right: 0;
+            background: var(--deep-space);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+        
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(15, 240, 252, 0.05);
+            border: 1px solid rgba(15, 240, 252, 0.3);
+            color: var(--stardust);
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, button:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 2px rgba(15, 240, 252, 0.2);
+        }
+        
+        select option {
+            background: var(--deep-space);
+            color: var(--stardust);
+        }
+        
+        button {
+            background: linear-gradient(135deg, var(--neon-blue), var(--cosmic-purple));
+            color: var(--deep-space);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(15, 240, 252, 0.3);
+        }
+        
+        button:disabled {
+            background: var(--galaxy-edge);
+            color: rgba(240, 248, 255, 0.5);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .spinner {
+            display: none;
+            width: 50px;
+            height: 50px;
+            margin: 2rem auto;
+            border: 4px solid rgba(15, 240, 252, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--neon-blue);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .results {
+            display: none;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(15, 240, 252, 0.1);
+            padding-top: 2rem;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-card {
+            background: rgba(10, 14, 23, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--cosmic-purple));
+        }
+        
+        .result-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--stardust);
+        }
+        
+        .result-card img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(15, 240, 252, 0.2);
+        }
+        
+        .result-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, var(--quantum-teal), var(--cosmic-purple));
+            margin-top: 1rem;
+        }
+        
+        footer {
+            background: var(--galaxy-edge);
+            padding: 3rem 0 2rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--cosmic-purple));
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Quantum', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--neon-blue), var(--quantum-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links a {
+            color: var(--stardust);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(240, 248, 255, 0.6);
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                padding: 0 1.5rem;
+            }
+            
+            nav ul {
+                margin-top: 1.5rem;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tool-container {
+                padding: 1.5rem;
+            }
+            
+            .tool-header h2 {
+                font-size: 2rem;
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="cyber-border">
+        <div class="header-content">
+            <a href="#" class="logo">PixelSqueeze</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <h1>Compress Without Compromise</h1>
+        <p>Our quantum-powered compression algorithm reduces file sizes while preserving image quality. Perfect for developers, designers, and content creators.</p>
+    </section>
+    
+    <main class="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h2>Quantum Compressor</h2>
+                <p>Upload your image and experience next-generation compression technology</p>
+            </div>
+            
+            <div class="upload-area" id="upload-area">
+                <div class="upload-icon">⇪</div>
+                <h3>Drop Your Image in the Quantum Field</h3>
+                <p>Supports JPG, PNG, WEBP (Max 15MB)</p>
+                <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp">
+            </div>
+            
+            <div class="file-info" id="file-info">
+                <span id="file-name"></span>
+                <span id="file-size"></span>
+                <span id="file-type"></span>
+            </div>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="compression-level">Compression Intensity</label>
+                    <div class="slider-container">
+                        <input type="range" id="compression-level" min="0" max="100" value="70">
+                        <span class="slider-value" id="compression-value">70%</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="output-format">Output Format</label>
+                    <select id="output-format">
+                        <option value="jpeg">JPEG (Maximum Compression)</option>
+                        <option value="png">PNG (Lossless)</option>
+                        <option value="webp">WebP (Future Format)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="resize-option">Dimensional Control</label>
+                    <select id="resize-option">
+                        <option value="none">Original Dimensions</option>
+                        <option value="width">Constrain Width</option>
+                        <option value="height">Constrain Height</option>
+                        <option value="both">Exact Dimensions</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="controls-grid" id="resize-controls" style="display: none;">
+                <div class="control-group" id="width-control">
+                    <label for="resize-width">Width (px)</label>
+                    <input type="number" id="resize-width" min="10" value="800">
+                </div>
+                
+                <div class="control-group" id="height-control">
+                    <label for="resize-height">Height (px)</label>
+                    <input type="number" id="resize-height" min="10" value="600">
+                </div>
+            </div>
+            
+            <button id="optimize-btn" disabled>
+                Initiate Compression
+            </button>
+            
+            <div class="spinner" id="spinner"></div>
+            
+            <div class="results" id="results">
+                <h3>Compression Analysis</h3>
+                <div class="result-grid">
+                    <div class="result-card">
+                        <h4>Original Matrix</h4>
+                        <img id="original-img" src="" alt="Original image">
+                        <div class="result-stats">
+                            <span>Data Size:</span>
+                            <span id="original-size">0 KB</span>
+                        </div>
+                        <div class="result-stats">
+                            <span>Dimensions:</span>
+                            <span id="original-dimensions">0×0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Compressed Output</h4>
+                        <img id="compressed-img" src="" alt="Compressed image">
+                        <div class="result-stats">
+                            <span>Data Size:</span>
+                            <span id="compressed-size">0 KB</span>
+                        </div>
+                        <div class="result-stats">
+                            <span>Dimensions:</span>
+                            <span id="compressed-dimensions">0×0</span>
+                        </div>
+                        <div class="result-stats">
+                            <span>Reduction:</span>
+                            <span id="reduction">0%</span>
+                        </div>
+                        <button id="download-btn" class="download-btn">
+                            Download Quantum File
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
